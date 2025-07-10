@@ -16,12 +16,12 @@ faiss-cpu==1.11.0
 filetype==1.2.0
 Flask==3.1.1
 frozenlist==1.7.0
-google-ai-generativelanguage==0.6.15
+google-ai-generativelanguage==0.6.18
 google-api-core==2.25.1
 google-api-python-client==2.176.0
 google-auth==2.40.3
 google-auth-httplib2==0.2.0
-google-generativeai==0.8.5
+google-generativeai==0.7.0
 googleapis-common-protos==1.70.0
 greenlet==3.2.3
 grpcio==1.73.1
@@ -39,7 +39,7 @@ jsonpointer==3.0.0
 langchain==0.3.26
 langchain-community==0.3.27
 langchain-core==0.3.68
-langchain-google-genai==2.1.7
+langchain-google-genai==2.0.2
 langchain-text-splitters==0.3.8
 langsmith==0.4.4
 lxml==6.0.0
