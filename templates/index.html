@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VidWise - AI YouTube Summarizer</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <style>
+    .summary-structured {
+      background: #fdfdfd;
+      padding: 1rem;
+      border-radius: 10px;
+      line-height: 1.6;
+      font-family: sans-serif;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .summary-structured h4 {
+      margin: 1rem 0 0.5rem;
+      font-size: 1.1rem;
+      color: #2a2a2a;
+    }
+    .summary-structured ul {
+      margin: 0 0 1rem 1.25rem;
+      padding: 0;
+    }
+    .summary-structured li {
+      margin-bottom: 0.3rem;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">VidWise</div>
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">Features</a>
+    <a href="#">About</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h1>
+    <span>Summarize</span> YouTube Videos, <span>Generate PPTs</span>, and <span>Chat</span> with Content
+  </h1>
+  <p>Paste a YouTube link and instantly get a summary, editable PowerPoint, and AI-powered chat experience.</p>
+
+  <form id="summarizeForm" class="input-box">
+    <input type="text" id="url" placeholder="Enter YouTube Video URL" required />
+    <button type="submit">▶️ Process Video</button>
+  </form>
+</section>
+
+<!-- Loading Screen -->
+<div id="loadingScreen" style="display:none; text-align:center; padding:80px 0;">
+  <h2 style="margin-bottom:8px;">Processing your video</h2>
+  <div style="color:#555; margin-bottom:32px;">This may take a few moments...</div>
+  <div style="width:400px; max-width:90%; margin:0 auto; height:10px; background:#ececf6; border-radius:5px; overflow:hidden;">
+    <div id="progressBar" style="width:30%; height:100%; background:#5b4af1; border-radius:5px; transition:width 0.4s;"></div>
+  </div>
+</div>
+
+<!-- Content Section -->
+<section class="content" style="display:none;">
+
+  <!-- Video Preview and Chat -->
+  <div class="video-chat-row">
+    <div class="video-preview">
+      <h3>📺 Video Preview</h3>
+      <div id="videoContainer">Video will load here...</div>
+    </div>
+
+    <div class="chat-box">
+      <h3>💬 Chat with Video</h3>
+      <div class="chat-container" id="chatContainer">
+        <div class="chat-bubble bot">Hello! I can answer questions about this video. What would you like to know?</div>
+      </div>
+      <form id="chatForm" class="chat-input-box">
+        <input type="text" id="chatInput" placeholder="Ask about the video..." required />
+        <button type="submit" id="chatSendBtn">📤</button>
+      </form>
+      <p class="chat-disclaimer">The AI might make mistakes. Consider checking important information.</p>
+    </div>
+  </div>
+
+  <!-- Summary -->
+  <div class="summary-box">
+    <h3>📝 Video Summary</h3>
+    <div id="summaryBox" class="summary-structured">Summary will appear here...</div>
+    <div class="actions">
+      <button id="generatePPT">📄 Generate PPT</button>
+      <a href="#" id="downloadLink" style="display: none;" download="summary.pptx">⬇️ Download PPT</a>
+    </div>
+  </div>
+
+  <!-- Transcript -->
+  <div class="transcript-box">
+    <h3>🗒️ Transcript</h3>
+    <textarea id="transcript" readonly placeholder="Transcript will appear here"></textarea>
+  </div>
+
+  <!-- PPT Preview -->
+  <div class="presentation-box">
+    <h3>📊 Presentation Preview</h3>
+    <p>(Your generated slides will show here(Click on Generate PPT))</p>
+  </div>
+
+</section>
+
+
+<!-- Features Section -->
+<section class="features-section">
+  <h2 class="features-heading">Powerful Features</h2>
+  <div class="features-grid">
+    <div class="feature-box">
+      <div class="feature-icon">🧠</div>
+      <h3>Smart Summaries</h3>
+      <p>Get concise, accurate summaries of YouTube videos in seconds, saving you hours of watching time.</p>
+    </div>
+    <div class="feature-box">
+      <div class="feature-icon">📑</div>
+      <h3>PPT Generation</h3>
+      <p>Automatically create professional PowerPoint presentations from video content with editable slides.</p>
+    </div>
+    <div class="feature-box">
+      <div class="feature-icon">💬</div>
+      <h3>Interactive Chat</h3>
+      <p>Ask questions and get answers about the video content as if you're chatting with the creator.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div>
+      <h3>VidWise</h3>
+      <p>The ultimate tool for learning from YouTube videos efficiently.</p>
+    </div>
+    <div>
+      <h4>Product</h4>
+      <ul>
+        <li><a href="#">Features</a></li>
+        <li><a href="#">Pricing</a></li>
+        <li><a href="#">API</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Resources</h4>
+      <ul>
+        <li><a href="#">Documentation</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Support</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Connect</h4>
+      <div class="footer-socials">
+        <a href="#">🐦</a>
+        <a href="#">💼</a>
+        <a href="#">🌐</a>
+        <a href="#">👨‍💻</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2025 VidWise. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- JS Section -->
+<script>
+  const form = document.getElementById('summarizeForm');
+  const contentSection = document.querySelector('.content');
+  const loadingScreen = document.getElementById('loadingScreen');
+  const progressBar = document.getElementById('progressBar');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    // Hide content, show loading
+    contentSection.style.display = 'none';
+    loadingScreen.style.display = 'block';
+    progressBar.style.width = '30%';
+
+    const url = document.getElementById('url').value;
+    const summaryDiv = document.getElementById('summaryBox');
+    const videoContainer = document.getElementById('videoContainer');
+
+    summaryDiv.innerHTML = '⏳ Loading summary...';
+    videoContainer.innerHTML = '';
+
+    // Simulate progress bar (optional, for effect)
+    let progress = 30;
+    const interval = setInterval(() => {
+      if (progress < 90) {
+        progress += Math.random() * 10;
+        progressBar.style.width = progress + '%';
+      }
+    }, 400);
+
+    const res = await fetch('/summarize', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url })
+    });
+
+    clearInterval(interval);
+    progressBar.style.width = '100%';
+
+    const data = await res.json();
+
+    // Hide loading, show content
+    loadingScreen.style.display = 'none';
+    contentSection.style.display = 'flex';
+
+    if (data.error) {
+      summaryDiv.innerHTML = `❌ Error: ${data.error}`;
+    } else {
+      document.getElementById("transcript").value = data.transcript;
+
+      // Render video
+      const videoId = url.split("v=")[1]?.split("&")[0];
+      if (videoId) {
+        videoContainer.innerHTML = `
+          <iframe width="100%" height="250" src="https://www.youtube.com/embed/${videoId}" 
+            frameborder="0" allowfullscreen></iframe>`;
+      }
+
+      // Render slide-style summary
+      summaryDiv.innerHTML = '';
+      if (data.slides && Array.isArray(data.slides)) {
+        data.slides.forEach((slide) => {
+          const section = document.createElement("div");
+
+          const title = document.createElement("h4");
+          title.textContent = slide.title || "Untitled Slide";
+
+          const ul = document.createElement("ul");
+          slide.bullets.forEach((point) => {
+            const li = document.createElement("li");
+            li.textContent = point;
+            ul.appendChild(li);
+          });
+
+          section.appendChild(title);
+          section.appendChild(ul);
+          summaryDiv.appendChild(section);
+        });
+      } else {
+        summaryDiv.innerHTML = `<p>${data.summary}</p>`;
+      }
+    }
+  });
+
+  // PPT generation
+  const generateBtn = document.getElementById("generatePPT");
+  const previewContainer = document.querySelector(".presentation-box");
+  const downloadLink = document.getElementById("downloadLink");
+
+  generateBtn.addEventListener("click", async () => {
+    const transcript = document.getElementById("transcript")?.value;
+    if (!transcript || !transcript.trim()) {
+      alert("Please generate a summary first.");
+      return;
+    }
+
+    const res = await fetch("/generate_ppt", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ transcript })
+    });
+
+    const data = await res.json();
+
+    if (data.error) {
+      alert("❌ PPT generation failed: " + data.error);
+      return;
+    }
+
+    const pptUrl = data.ppt_url;
+
+    previewContainer.innerHTML = `
+      <h3>📊 Presentation Preview</h3>
+      <iframe src="https://view.officeapps.live.com/op/embed.aspx?src=${location.origin}${pptUrl}" 
+              width="100%" height="400" frameborder="0"></iframe>
+      <p><a href="${pptUrl}" download>⬇️ Download PPT</a></p>
+    `;
+
+    downloadLink.href = pptUrl;
+    downloadLink.style.display = 'inline-block';
+  });
+</script>
+<script>
+  const chatInput = document.getElementById("chatInput");
+const chatContainer = document.getElementById("chatContainer");
+const chatForm = document.getElementById("chatForm");
+
+chatForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const question = chatInput.value.trim();
+  const transcript = document.getElementById("transcript")?.value;
+
+  if (!question || !transcript) {
+    alert("❗ Please enter a question and generate transcript first.");
+    return;
+  }
+
+  // Append user question
+  const userBubble = document.createElement("div");
+  userBubble.className = "chat-bubble user";
+  userBubble.textContent = question;
+  chatContainer.appendChild(userBubble);
+  chatContainer.scrollTop = chatContainer.scrollHeight;
+
+  chatInput.value = "";
+
+  // Add bot "thinking" bubble
+  const loadingBubble = document.createElement("div");
+  loadingBubble.className = "chat-bubble bot";
+  loadingBubble.textContent = "⏳ Thinking...";
+  chatContainer.appendChild(loadingBubble);
+  chatContainer.scrollTop = chatContainer.scrollHeight;
+
+  // Send request
+  const res = await fetch("/chat", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ question, transcript })
+  });
+
+  const data = await res.json();
+
+  // Remove loading bubble and replace with actual answer
+  chatContainer.removeChild(loadingBubble);
+
+  const botBubble = document.createElement("div");
+  botBubble.className = "chat-bubble bot";
+  botBubble.textContent = data.answer ? data.answer : "❌ Something went wrong.";
+  chatContainer.appendChild(botBubble);
+  chatContainer.scrollTop = chatContainer.scrollHeight;
+});
+
+</script>
+
+
+</body>
+</html>

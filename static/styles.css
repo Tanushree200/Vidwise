@@ -1,0 +1,380 @@
+:root {
+  --primary: #5b4af1;
+  --light-bg: #f6f8fb;
+  --dark: #1e2a38;
+  --gray: #646e85;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  background-color: var(--light-bg);
+  color: var(--dark);
+}
+
+header {
+  background: white;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: bold;
+  color: var(--primary);
+}
+
+nav a {
+  margin-left: 20px;
+  color: var(--dark);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.hero {
+  text-align: center;
+  padding: 60px 20px 30px;
+}
+
+.hero h1 {
+  font-size: 32px;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.4;
+}
+
+.hero span {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.input-box {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+input[type="text"] {
+  padding: 14px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  width: 400px;
+  max-width: 90%;
+}
+
+button {
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 14px 20px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.content {
+  max-width: 1100px;
+  margin: 30px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding: 0 20px;
+}
+
+
+.summary-box,
+.transcript-box,
+.presentation-box {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.summary-structured h4 {
+  margin: 12px 0 6px;
+  font-size: 16px;
+  color: var(--primary);
+}
+
+.summary-structured ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.summary-structured li {
+  margin-bottom: 6px;
+  color: #333;
+  font-size: 14px;
+}
+
+textarea {
+  width: 100%;
+  height: 160px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  resize: vertical;
+  font-family: inherit;
+  font-size: 15px;
+  margin-top: 10px;
+}
+
+.actions {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.actions button {
+  flex: 1;
+  font-size: 14px;
+}
+
+
+
+.chat-container {
+  max-height: 300px;
+  overflow-y: auto;
+  background-color: #f5f7fa;
+  padding: 12px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+.chat-bubble {
+  max-width: 80%;
+  padding: 10px 14px;
+  border-radius: 16px;
+  margin: 8px 0;
+  font-size: 14px;
+  line-height: 1.5;
+  word-wrap: break-word;
+  display: inline-block;
+}
+
+.chat-bubble.bot {
+  background-color: #eef2ff;
+  color: #333;
+  align-self: flex-start;
+}
+
+.chat-bubble.user {
+  background-color: #dbeafe;
+  color: #111827;
+  margin-left: auto;
+  text-align: right;
+}
+
+.chat-input-box {
+  display: flex;
+  gap: 8px;
+}
+
+.chat-input-box input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 999px;
+  font-size: 14px;
+  outline: none;
+}
+
+.chat-input-box button {
+  background-color: #4f46e5;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 50%;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.chat-disclaimer {
+  font-size: 12px;
+  color: #666;
+  margin-top: 6px;
+}
+
+/* Features section */
+.features-section {
+  background: #ffffff;
+  padding: 60px 20px 40px;
+  text-align: center;
+}
+
+.features-heading {
+  font-size: 30px;
+  margin-bottom: 30px;
+  font-weight: bold;
+  color: #1e2a38;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.feature-box {
+  background: #f9f9f9;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.feature-icon {
+  font-size: 36px;
+  margin-bottom: 15px;
+  color: #5b4af1;
+}
+
+.feature-box h3 {
+  margin-bottom: 10px;
+  font-size: 20px;
+  color: #1e2a38;
+}
+
+.feature-box p {
+  color: #5f6b7a;
+  font-size: 15px;
+}
+
+/* Footer */
+.footer {
+  background-color: #1e2a38;
+  color: #ffffff;
+  padding: 60px 20px 30px;
+  margin-top: 60px;
+}
+
+.footer-grid {
+  max-width: 1100px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 40px;
+}
+
+.footer-grid h4,
+.footer-grid h3 {
+  margin-bottom: 15px;
+  font-size: 18px;
+  color: #ffffff;
+}
+
+.footer-grid p,
+.footer-grid li a {
+  color: #cccccc;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.footer-grid li {
+  margin-bottom: 8px;
+  list-style: none;
+}
+
+.footer-grid li a:hover {
+  color: #ffffff;
+}
+
+.footer-socials a {
+  margin-right: 12px;
+  font-size: 20px;
+  color: #cccccc;
+  text-decoration: none;
+}
+
+.footer-socials a:hover {
+  color: #ffffff;
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 14px;
+  color: #999999;
+}
+.video-chat-row {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  gap: 30px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.video-preview,
+.chat-box {
+  flex: 1 1 0;
+  min-width: 0;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
+}
+
+.transcript-box {
+  display: none !important;
+}
+
+@media (max-width: 900px) {
+  .video-chat-row {
+    flex-direction: column !important;
+    gap: 20px;
+  }
+  .video-preview,
+  .chat-box {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .content {
+    padding: 0 15px;
+  }
+
+  .video-chat-row {
+    flex-direction: column;
+  }
+
+  input[type="text"],
+  button {
+    width: 100%;
+  }
+
+  .input-box {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .chat-input-box {
+    flex-direction: column;
+  }
+
+  .chat-input-box button {
+    width: 100%;
+    border-radius: 8px;
+  }
+}
+
